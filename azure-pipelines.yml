@@ -19,9 +19,11 @@ steps:
 - script: |
     python -c "import sys; print(sys.executable)"
   displayName: 'script'
+
 - bash: |
     python -c "import sys; print(sys.executable)"
   displayName: 'bash'
+
 - cmd: |
     python -c "import sys; print(sys.executable)"
   displayName: 'cmd'
