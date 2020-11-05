@@ -5,7 +5,7 @@ strategy:
   matrix:
     windows:
       imageName: 'vs2017-win2016'
-      python.version: '3.x'
+      python.version: '3.7'
 
 pool:
   vmImage: $(imageName)
