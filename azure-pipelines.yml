@@ -4,7 +4,7 @@ trigger:
 strategy:
   matrix:
     mac:
-      imageName: 'macOS-10.13'
+      imageName: 'vs2017-win2016'
       python.version: '3.x'
 
 pool:
@@ -17,9 +17,11 @@ steps:
     architecture: 'x64'
 
 - script: |
-    printenv
-    python -c "import platform ; print('platform.mac_ver:', platform.mac_ver())"
-    python -c "import distutils.util ; print('distutils.util.get_platform: ', distutils.util.get_platform())"
-    python -c "import os ; print('MACOSX_DEPLOYMENT_TARGET: ', os.environ.get('MACOSX_DEPLOYMENT_TARGET', '<none>'))"
-    python -c "import distutils.sysconfig; print('distutils.sysconfig.get_config_vars ---\n', distutils.sysconfig.get_config_vars())"
-  displayName: 'Print env'
+    python -c "import sys; print(sys.executable)"
+  displayName: 'script'
+- bash: |
+    python -c "import sys; print(sys.executable)"
+  displayName: 'bash'
+- cmd: |
+    python -c "import sys; print(sys.executable)"
+  displayName: 'cmd'
