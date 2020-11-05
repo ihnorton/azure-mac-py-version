@@ -3,7 +3,7 @@ trigger:
 
 strategy:
   matrix:
-    mac:
+    windows:
       imageName: 'vs2017-win2016'
       python.version: '3.x'
 
@@ -21,5 +21,21 @@ steps:
   displayName: 'script'
 
 - bash: |
+    set -xeo pipefail
+    which python
     python -c "import sys; print(sys.executable)"
-  displayName: 'bash'
+  displayName: 'bash 1'
+
+- bash: |
+    set -xeo pipefail
+    which python
+    python setup.py build_ext --inplace
+    python setup.py install
+  displayName: 'Build TileDB and TileDB-Py extension (POSIX)'
+  condition: ne(variables['Agent.OS'], 'Windows_NT')
+
+- bash: |
+    set -xeo pipefail
+    which python
+    python -c "import sys; print(sys.executable)"
+  displayName: 'bash 2'
