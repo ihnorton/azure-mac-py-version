@@ -10,7 +10,6 @@ steps:
   inputs:
     versionSpec: 3.x
     addToPath: true
-    architecture: x86
 
 - script: |
     python --version
