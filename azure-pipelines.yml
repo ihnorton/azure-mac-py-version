@@ -1,48 +1,19 @@
 trigger:
 - master
 
-strategy:
-  matrix:
-    windows:
-      imageName: 'vs2017-win2016'
-      python.version: '3.7'
-
 pool:
-  vmImage: $(imageName)
+  vmImage: 'windows-2019'
 
 steps:
+
 - task: UsePythonVersion@0
   inputs:
-    versionSpec: '$(python.version)'
-    architecture: 'x64'
+    versionSpec: 3.x
+    addToPath: true
+    architecture: x86
 
 - script: |
-    # vcvarsall is necessary so that numpy uses the correct compiler
-    call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-    python -c "import sys; print(sys.executable)"
-  displayName: 'Build TileDB and TileDB-Py extension (Windows)'
-  condition: eq(variables['Agent.OS'], 'Windows_NT')
-
-- script: |
-    python -c "import sys; print(sys.executable)"
-  displayName: 'script'
-
-- bash: |
-    set -xeo pipefail
-    which python
-    python -c "import sys; print(sys.executable)"
-  displayName: 'bash 1'
-
-- bash: |
-    set -xeo pipefail
-    which python
-    python setup.py build_ext --inplace
-    python setup.py install
-  displayName: 'Build TileDB and TileDB-Py extension (POSIX)'
-  condition: ne(variables['Agent.OS'], 'Windows_NT')
-
-- bash: |
-    set -xeo pipefail
-    which python
-    python -c "import sys; print(sys.executable)"
-  displayName: 'bash 2'
+    python --version
+    python -c "import sys; print(sys.path); print(sys.executable)"
+    python -m pip install cryptography==2.8
+  displayName: 'Demonstrate regression with pip install of cryptography'
