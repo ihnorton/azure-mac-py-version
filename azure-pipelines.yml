@@ -1,22 +1,46 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-22.04'
+#pool:
+#  vmImage: 'ubuntu-22.04'
+#
+#matrix:
+#  job1:
+#    ARCH_TAG: foo
+#  job2:
+#    ARCH_TAG: bar
+#
+#steps:
+#
+#- script: |
+#    echo "blah blah blah" > test.txt
+#  displayName: 'create content'
+#
+#- task: PublishBuildArtifacts@1
+#  inputs:
+#    pathtoPublish: test.txt
+#    artifactName: 'libtiledb-$(Agent.OS)$(ARCH_TAG)'
 
-matrix:
-  job1:
-    ARCH_TAG: foo
-  job2:
-    ARCH_TAG: bar
+stages:
+  - stage: CI
+    jobs:
+    - job:
+      timeoutInMinutes: 2
+      strategy:
+        matrix:
+          job1:
+            ARCH_TAG: foo
+          job2:
+            ARCH_TAG: bar
 
-steps:
+     pool:
+        vmImage: $(imageName)
+      steps:
+      - script: |
+          echo "blah blah blah" > test.txt
+        displayName: 'create content'
 
-- script: |
-    echo "blah blah blah" > test.txt
-  displayName: 'create content'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathtoPublish: test.txt
-    artifactName: 'libtiledb-$(Agent.OS)$(ARCH_TAG)'
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathtoPublish: test.txt
+          artifactName: 'libtiledb-$(Agent.OS)$(ARCH_TAG)'
