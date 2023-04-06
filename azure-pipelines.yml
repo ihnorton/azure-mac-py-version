@@ -2,17 +2,21 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'ubuntu-22.04'
+
+matrix:
+  job1:
+    ARCH_TAG: foo
+  job2:
+    ARCH_TAG: bar
 
 steps:
 
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: 3.x
-    addToPath: true
-
 - script: |
-    python --version
-    python -c "import sys; print(sys.path); print(sys.executable)"
-    python -m pip install cryptography==2.8
-  displayName: 'Demonstrate regression with pip install of cryptography'
+    echo "blah blah blah" > test.txt
+  displayName: 'create content'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: test.txt
+    artifactName: 'libtiledb-$(Agent.OS)$(ARCH_TAG)'
