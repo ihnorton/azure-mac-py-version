@@ -29,8 +29,10 @@ stages:
       strategy:
         matrix:
           job1:
+            imageName: 'ubunt-22.04'
             ARCH_TAG: foo
           job2:
+            imageName: 'ubunt-22.04'
             ARCH_TAG: bar
 
       pool:
